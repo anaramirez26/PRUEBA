@@ -14,6 +14,8 @@ bool yaDicho(int, int [], int);
 void generarTablero(int mat[3][3]);
 void mostrarTablero(int mat[3][3]);
 void tableroActualizado(int mat[3][3]);
+bool verificarEmpate(int mat[2][3][3]);
+void mostrarGanador(int mat[2][3][3], string arrjug[2], bool &juegoTerminado);
 
 int main(void)
 {
@@ -95,19 +97,14 @@ cin >> opc;
                         // Pausa entre generaciones de números
                 sleep(1);
 
-                for (int k = 0; k < 2; k++) {
-
-                    if (tableroCompleto(mat[k])) {
-                        cout << endl << "EL JUGADOR " << arrjug[k] << " HA GANADO LA PARTIDA!" << endl << endl;
+                    if (verificarEmpate(mat)) {
+                        cout << endl << "EL JUEGO TERMINÓ EN EMPATE!" << endl;
                         juegoTerminado = true;
-                        alguienGano = true;
-                        break;
-                    } else if (tableroCompleto(mat[k])&&tableroCompleto(mat[k])) {
-                        cout << endl << "EMPATE!" << endl << endl;
-                        cout << "Los dos jugadores han ganado la partida... ";
-                    }
-                }
-            
+                        cout << endl << "LA PARTIDA HA TERMINADO..." << endl << endl;
+                        } else {
+                        mostrarGanador(mat, arrjug, juegoTerminado);
+                        }
+
                 // do while para que las opciones no se muestren cuando este completo de ceros 
             do{ 
 
@@ -257,4 +254,24 @@ void tableroActualizado(int mat[3][3])
                 cout << endl << endl;
     }
 
+}
+
+// Función para verificar si ambos tableros están completamente llenos de ceros
+bool verificarEmpate(int mat[2][3][3])
+{
+    return tableroCompleto(mat[0]) && tableroCompleto(mat[1]);
+}
+
+// Función para mostrar el ganador si un jugador tiene su tablero completo de ceros
+void mostrarGanador(int mat[2][3][3], string arrjug[2], bool &juegoTerminado)
+{
+    if (tableroCompleto(mat[0])) {
+        cout << endl << "EL JUGADOR " << arrjug[0] << " HA GANADO LA PARTIDA!" << endl;
+        juegoTerminado = true;
+        cout << endl << "LA PARTIDA HA TERMINADO..." << endl << endl;
+    } else if (tableroCompleto(mat[1])) {
+        cout << endl << "EL JUGADOR " << arrjug[1] << " HA GANADO LA PARTIDA!" << endl;
+        juegoTerminado = true;
+        cout << endl << "LA PARTIDA HA TERMINADO..." << endl << endl;
+    }
 }
